@@ -34,11 +34,11 @@ with open("quotes.txt", mode="r", encoding="utf8") as quotes:
     date = dt.datetime.now()
     print(date.weekday())
     if date.weekday() == 0:
-        email = "pythontest20000@gmail.com"
-        password = "quiwkxuveovkdbaw"
+        email = "YOUR EMAIL"
+        password = "XYZ"
         with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
             connection.starttls()
             connection.login(user=email, password=password)
             connection.sendmail(from_addr=email,
-                            to_addrs="pythontest20000@yahoo.com",
+                            to_addrs="XYZ@yahoo.com",
                             msg=f"Subject: Monday motivation\n\n{random_data}")
