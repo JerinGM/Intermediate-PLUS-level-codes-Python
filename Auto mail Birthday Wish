@@ -1,0 +1,53 @@
+import smtplib
+import datetime
+import pandas
+import random
+
+data = pandas.read_csv("birthdays.csv")
+new_dict = data.to_dict(orient= "records")
+#print(new_dict[0]['name'])
+now = datetime.datetime.now()
+for item in range(len(new_dict)):
+    if new_dict[item]['month'] == now.month and new_dict[item]['day'] == now.day:
+        # print(new_dict[item]['name'])
+        with open("./letter_templates/letter_1.txt") as lOne:
+            letterOne = lOne.read()
+        with open("./letter_templates/letter_2.txt") as lTwo:
+            letterTwo = lTwo.read()
+        with open("./letter_templates/letter_3.txt") as lThree:
+            letterThree = lThree.read()
+        randomChoice = random.randint(1,3)
+        if randomChoice == 1:
+            new_letterOne = letterOne.replace("[NAME]", new_dict[item]['name'])
+            email = "XYZ@gmail.com"
+            password = "XYZ"
+            with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
+                connection.starttls()
+                connection.login(user=email, password=password)
+                connection.sendmail(from_addr=email,
+                                    to_addrs=f"{new_dict[item]['email']}",
+                                    msg=f"Subject: Happy Birthday!\n\n{new_letterOne}")
+        elif randomChoice == 2:
+            new_letterTwo = letterTwo.replace("[NAME]", new_dict[item]['name'])
+            email = "YXZ"
+            password = "XYZ"
+            with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
+                connection.starttls()
+                connection.login(user=email, password=password)
+                connection.sendmail(from_addr=email,
+                                to_addrs=f"{new_dict[item]['email']}",
+                                msg=f"Subject: Happy Birthday!\n\n{new_letterTwo}")
+        elif randomChoice == 3:
+            new_letterThree = letterThree.replace("[NAME]", new_dict[item]['name'])
+            email = "XYZ@gmail.com"
+            password = "XYZ"
+            with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
+                connection.starttls()
+                connection.login(user=email, password=password)
+                connection.sendmail(from_addr=email,
+                                    to_addrs=f"{new_dict[item]['email']}",
+                                    msg=f"Subject: Happy Birthday!\n\n{new_letterThree}")
+        else:
+            break
+    else:
+        break
