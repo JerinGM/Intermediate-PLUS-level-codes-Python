@@ -1,0 +1,7 @@
+import smtplib
+email = "YOUR EMAIL"
+password = "COPY YOUR 16 DIGIT PASSWORD"
+with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
+    connection.starttls()
+    connection.login(user=email, password=password)
+    connection.sendmail(from_addr=email, to_addrs="XYZ@yahoo.com", msg="Subject: SMTP email\n\nThis is my first email\nBlah Blah")
