@@ -1,0 +1,60 @@
+import requests
+import datetime
+# create_parameters = {
+#     "token": "xyz",
+#     "username": "jerin",
+#     "agreeTermsOfService": "yes",
+#     "notMinor": "yes",
+# }
+#
+# user_account_create = requests.post(url="https://pixe.la/v1/users", json=create_parameters)
+# print(user_account_create.text)
+#
+# graph_parameters = {
+#     "id": "graphnum1",
+#     "name": "coding progress tracker",
+#     "unit": "commit",
+#     "type": "int",
+#     "color": "kuro",
+# }
+#
+# header = {
+#     "X-USER-TOKEN": "xyz",
+# }
+#
+# graph_definition = requests.post(url="https://pixe.la/v1/users/jerin/graphs", json=graph_parameters, headers=header)
+# print(graph_definition.text)
+now = datetime.datetime.now()
+
+# to add yesterday's data or any previous date data
+# anydate = datetime.datetime(year= 2023, month=9, day=25)
+
+# header = {
+#     "X-USER-TOKEN": "xyz",
+# }
+#
+# graph_value_parameter = {
+#     "date": now.strftime("%Y%m%d"),
+#     "quantity": "4", OR "quantity": input("How many commits for today")
+# }
+#
+# add_value = requests.post(url="https://pixe.la/v1/users/jerin/graphs/graphnum1",
+#                           json=graph_value_parameter, headers=header)
+# print(add_value.text)
+
+# update
+
+header = {
+    "X-USER-TOKEN": "xyz",
+}
+
+graph_value_parameter = {
+    "name": "graphnum1",
+    "unit": "1000",
+    "color": "ajisai",
+}
+
+add_value = requests.put(url="https://pixe.la/v1/users/jerin/graphs/graphnum1",
+                          json=graph_value_parameter, headers=header)
+print(add_value.text)
+
