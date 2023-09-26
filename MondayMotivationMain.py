@@ -1,6 +1,6 @@
 # import smtplib
 # email = "pythontest20000@gmail.com"
-# password = "quiwkxuveovkdbaw"
+# password = "quiwkxkjkjuveovkdbaw"
 # with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
 #     connection.starttls()
 #     connection.login(user=email, password=password)
