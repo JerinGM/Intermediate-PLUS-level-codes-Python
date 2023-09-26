@@ -1,0 +1,75 @@
+import requests
+import os
+from twilio.rest import Client
+STOCK = "TSLA"
+COMPANY_NAME = "Tesla Inc"
+account_sid = "AwWeC7dc9c2erw0b4156752ab49yrb03a1ca7c02ee0a"
+auth_token = "49w522fe3873d00sa12876ee61dd17eet9ffc6t6"
+
+#Optional: Format the SMS message like this: 
+"""
+TSLA: 🔺2%
+Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
+Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
+or
+"TSLA: 🔻5%
+Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
+Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
+"""
+
+response = requests.get(url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=TSLA&apikey=ZQFIMXD6H9J8K1A1")
+# print(response.status_code)
+response.raise_for_status()
+# data = response.json()['Time Series (Daily)']['2023-09-25']['4. close']
+data = response.json()['Time Series (Daily)']
+key, value = list(data.items())[0]
+yesterday = key
+yesterdayClose = value['4. close']
+key, value = list(data.items())[1]
+dayBeforeYesterday = key
+dayBeforeYesterdayClose = value['4. close']
+
+# print(yesterday)
+# print(yesterdayClose)
+# print(dayBeforeYesterday)
+# print(dayBeforeYesterdayClose)
+
+diff = abs(float(yesterdayClose)-float(dayBeforeYesterdayClose))
+# print(diff)
+
+diffPercentage = (diff/float(yesterdayClose)) * 100
+# print(diffPercentage)
+if diffPercentage > 0.8:
+    parameter = {
+    'q': 'tesla',
+    'from': yesterday,
+    'sortBy': 'publishedAt',
+    'apiKey': "4eaff2fsa396604caxa7ab4efbbds7a6ae73a4"
+    }
+    newsresponse = requests.get(url="https://newsapi.org/v2/everything", params=parameter)
+    print(newsresponse.status_code)
+    newsresponse.raise_for_status()
+    first_article_title = newsresponse.json()['articles'][0]['title']
+    first_article_description = newsresponse.json()['articles'][0]['description']
+    second_article_title = newsresponse.json()['articles'][1]['title']
+    second_article_description = newsresponse.json()['articles'][1]['description']
+    third_article_title = newsresponse.json()['articles'][2]['title']
+    third_article_description = newsresponse.json()['articles'][2]['description']
+    # print(second_article_description)
+    # print(second_article_title)
+    #print(newsresponse.json()['articles'][0])
+    # print(first_article)
+    # print(second_article)
+    # print(third_article)
+    # article = newsresponse.json()['articles'][:3]
+    # print(article)
+    client = Client(account_sid, auth_token)
+    message = client.messages \
+        .create(
+        from_='+14049961865',
+        body=f'{first_article_title}:\n{first_article_description}\n\n{second_article_title}:\n{second_article_description}\n\n{third_article_title}:\n{third_article_description}',
+        to='+911234567890'
+    )
+
+    print(message.status)
+
