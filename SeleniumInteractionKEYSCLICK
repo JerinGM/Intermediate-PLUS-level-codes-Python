@@ -1,0 +1,23 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+
+chrome_Object = webdriver.ChromeOptions()
+chrome_Object.add_experimental_option("detach", True)
+
+driver = webdriver.Chrome(options=chrome_Object)
+driver.get("https://secure-retreat-92358.herokuapp.com/")
+
+top = driver.find_element(By.NAME, value="fName")
+top.send_keys("Python")
+middle = driver.find_element(By.NAME, "lName")
+middle.send_keys("Test")
+bottom = driver.find_element(By.NAME, "email")
+bottom.send_keys("pythontest20000@gmail.com")
+
+
+#bottom.send_keys(Keys.ENTER)
+#OR
+submit = driver.find_element(By.CSS_SELECTOR, "form button")
+submit.click()
+
