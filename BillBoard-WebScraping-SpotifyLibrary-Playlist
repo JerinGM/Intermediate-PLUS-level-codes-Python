@@ -1,0 +1,50 @@
+from bs4 import BeautifulSoup
+import requests
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+
+user_input = input("Enter a date in YYYY-MM-DD format\n")
+YYYY = user_input.split('-')[0]
+# print(YYYY)
+response = requests.get(url="https://www.billboard.com/charts/hot-100/" + user_input)
+# print(response.text)
+soup = BeautifulSoup(response.text, "html.parser")
+song = soup.select("li ul li h3")
+# print((song[0].getText()).split())
+song_list = []
+for i in range(len(song)):
+    temp = song[i].getText().split()
+    new_temp = ' '.join(temp)
+    song_list.append(new_temp)
+# print(song_list)
+
+
+spotifyCID = "YOUR ID"
+spotifyCSecret = "YOUR SECRET"
+
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth
+    (
+        scope="playlist-modify-private",
+        redirect_uri="http://example.com",
+        client_id=spotifyCID,
+        client_secret=spotifyCSecret,
+        show_dialog=True,
+        cache_path="token.txt",
+        username="YOUR NAME",
+    )
+)
+user_id = sp.current_user()["id"]
+print(user_id)
+song_uri = []
+for song in song_list:
+    searching_song = sp.search(q=f"track: {song} year: {YYYY}", type="track")
+    try:
+        song_uri.append(searching_song["tracks"]["items"][0]["uri"])
+    except IndexError:
+        print(f"{song} - Song not found")
+print(song_uri)
+# creating a playlist
+new_spotify_playlist = sp.user_playlist_create(user=user_id, name=f"{user_input} Billboard 100", public=False)
+print(new_spotify_playlist)
+# adding songs to the playlist
+adding_songs = sp.playlist_add_items(playlist_id=new_spotify_playlist['id'], items=song_uri)
