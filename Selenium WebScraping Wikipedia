@@ -1,0 +1,12 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+chrome_Object = webdriver.ChromeOptions()
+chrome_Object.add_experimental_option("detach", True)
+
+driver = webdriver.Chrome(options=chrome_Object)
+driver.get("https://en.wikipedia.org/wiki/Main_Page")
+
+countArticles = driver.find_element(By.CSS_SELECTOR, '#articlecount a')
+print(countArticles.text)
+driver.quit()
