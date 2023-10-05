@@ -1,0 +1,50 @@
+# selenium automation linkedin Job application
+
+import selenium
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
+
+chromeOptions = webdriver.ChromeOptions()
+chromeOptions.add_experimental_option("detach", True)
+
+driver = webdriver.Chrome(options=chromeOptions)
+driver.get("https://www.linkedin.com/home")
+time.sleep(2)
+button = driver.find_element(By.LINK_TEXT, "Sign in")
+button.click()
+time.sleep(3)
+
+name = driver.find_element(By.NAME, "session_key")
+name.send_keys("YOUR EMAIL")
+password = driver.find_element(By.ID, "password")
+password.send_keys("YOUR PASSWORD")
+
+button = driver.find_element(By.XPATH, '//*[@id="organic-div"]/form/div[3]/button')
+button.click()
+time.sleep(10)
+
+search_bar = driver.find_element(By.XPATH, '//*[@id="global-nav-typeahead"]/input')
+search_bar.send_keys('Python Developer')
+search_bar.send_keys(Keys.ENTER)
+time.sleep(5)
+jobs = driver.find_element(By.CSS_SELECTOR, ".search-reusables__filters-bar-grouping button")
+jobs.click()
+time.sleep(2)
+easy_apply = driver.find_element(By.XPATH, '//*[@id="search-reusables__filters-bar"]/ul/li[7]/div')
+easy_apply.click()
+time.sleep(3)
+easy_apply_jobs = driver.find_element(By.CSS_SELECTOR, ".jobs-apply-button--top-card span")
+easy_apply_jobs.click()
+time.sleep(3)
+phone = driver.find_element(by=By.CSS_SELECTOR, value="input[id*=phoneNumber]")
+phone.send_keys("1234567890")
+
+nextButton = driver.find_element(by=By.CSS_SELECTOR, value="footer button")
+nextButton.click()
+time.sleep(3)
+reviewButton = driver.find_element(By.CSS_SELECTOR, ".artdeco-button--primary span")
+reviewButton.click()
+submitButton = driver.find_element(by=By.CSS_SELECTOR, value="footer button")
+submitButton.click()
