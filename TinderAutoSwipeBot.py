@@ -27,9 +27,9 @@ fb_login_window = driver.window_handles[1]
 driver.switch_to.window(fb_login_window)
 time.sleep(2)
 email = driver.find_element(By.ID, "email")
-email.send_keys("pythontest20000@gmail.com")
+email.send_keys("pythontestXYZ@gmail.com")
 password = driver.find_element(By.ID, "pass")
-password.send_keys("Daenerys@123")
+password.send_keys("XYZ")
 password.send_keys(Keys.ENTER)
 time.sleep(2)
 # SWITCHING WINDOW BACK
