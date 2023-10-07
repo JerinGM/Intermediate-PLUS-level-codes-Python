@@ -1,0 +1,80 @@
+import selenium
+from selenium import webdriver
+from selenium.common import ElementClickInterceptedException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
+
+USERNAME = "YOUR USERNAME"
+PASSWORD = "YOUR PASSWORD"
+SIMILAR_ACCOUNT = "chefvenkateshbhat"
+
+class InstagramFollowerBot:
+    def __init__(self):
+        self.chromeOptions = webdriver.ChromeOptions()
+        self.chromeOptions.add_experimental_option("detach", True)
+        self.driver = webdriver.Chrome(options=self.chromeOptions)
+        self.driver.get("https://www.instagram.com")
+
+    def login(self):
+        time.sleep(2)
+
+        inputusername = self.driver.find_element(By.XPATH, '//*[@id="loginForm"]/div/div[1]/div/label/input')
+        inputusername.send_keys(USERNAME)
+
+        password = self.driver.find_element(By.XPATH, '//*[@id="loginForm"]/div/div[2]/div/label/input')
+        password.send_keys(PASSWORD)
+
+        time.sleep(3)
+
+        login = self.driver.find_element(By.XPATH, '//*[@id="loginForm"]/div/div[3]')
+        login.click()
+
+        time.sleep(3)
+        self.driver.find_element((By.XPATH, "//button[contains(text(), 'Not Now')]")).click()
+
+    def find_followers(self):
+        time.sleep(2)
+        self.driver.get(f"https://www.instagram.com/{SIMILAR_ACCOUNT}")
+        time.sleep(3)
+        # # since the below command wont work - using a work around - id is not static anymore
+        # followers = self.driver.find_element(By.XPATH,'//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a')
+        # followers.click()
+
+        self.driver.get(f"https://www.instagram.com/{SIMILAR_ACCOUNT}/followers")
+        downarrow = self.driver.find_element(By.XPATH,'/html/body/div[5]/div[1]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]')
+        for i in range(10):
+            self.driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", downarrow)
+            time.sleep(2)
+
+
+
+    def follow(self):
+        time.sleep(5)
+
+######### NOTE: THE CODE BELOW WONT WORK, META KEEPS ON UPDATING THINGS TO NOT LET IN BOTS. MY TEST ACCOUNT GOT KICKED OUT TWICE, HENCE I GAVE UP
+######### NOT WORTH THE TIME TO DIG IN FURTHER ON THIS. IF YOU ARE ATTEMPTING, MAKE SURE TO SCROLL AFTER YOU FOLLOW ACCOUNTS
+
+        all_buttons = self.driver.find_elements(By.CSS_SELECTOR, 'div button')
+        for button in all_buttons:
+            button.click()
+            time.sleep(1)
+            downarrow = self.driver.find_element(By.XPATH, '/html/body/div[5]/div[1]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]')
+            self.driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", downarrow)
+            time.sleep(2)
+
+            # try:
+            #     button.click()
+            #     time.sleep(1)
+            # except ElementClickInterceptedException:
+            #     cancel_button = self.driver.find_element_by_xpath('/html/body/div[5]/div/div/div/div[3]/button[2]')
+            #     cancel_button.click()
+            # else:
+            #     # SCROLL
+
+
+
+instagramfollowerbot = InstagramFollowerBot()
+instagramfollowerbot.login()
+instagramfollowerbot.find_followers()
+instagramfollowerbot.follow()
