@@ -1,0 +1,37 @@
+from flask import Flask
+
+app = Flask(__name__)
+
+
+@app.route('/')
+def hello():
+    return "Hello"
+
+@app.route('/bye')
+def bye():
+    return "Bye"
+
+# @app.route('/username/<name>')
+# def greet(name):
+#     return f"Hello {name}"
+
+# @app.route('/<name>')
+# def greet(name):
+#     return f"Hello {name}"
+
+
+# THIS GIVES ERROR when we try url/name. As debug is true, we can see the error
+# @app.route('/<username>')
+# def greet(name):
+#     return f"Hello {name}"
+
+@app.route('/<name>')
+def greet(name):
+    return "<h1 style='text-align: center'> Hello {name} </h1>" \
+            "<p>This is a para</p>" 
+
+if __name__ == "__main__":
+
+    app.run(debug=True)
+
+
