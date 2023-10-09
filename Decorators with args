@@ -1,0 +1,16 @@
+inputs = eval(input())
+
+
+def decorator(function):
+    def wrapper(*args):
+        print(f"You called a {function.__name__} {args}")
+        function(args[0], args[1], args[2])
+    return wrapper
+
+
+@decorator
+def func(a,b,c):
+    return print(f"It returned: {a*b*c}")
+
+
+func(inputs[0], inputs[1], inputs[2])
