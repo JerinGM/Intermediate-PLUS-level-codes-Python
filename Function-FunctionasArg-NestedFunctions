@@ -1,0 +1,37 @@
+def add(n1, n2):
+    return n1+n2
+
+
+def sub(n1, n2):
+    return n1-n2
+
+
+def multiply(n1, n2):
+    return n1*n2
+
+
+def division(n1, n2):
+    return n1/n2
+
+
+def calculate(cal, n1, n2):
+    return cal(n1, n2)
+
+################################################# ARGUMENT
+c = calculate(division, 10, 5)
+print(c)
+
+################################################# NESTED
+
+def out():
+    print("Out")
+
+    def inner():
+        print("In")
+    return inner
+
+
+
+innerfunc = out() # prints Out
+innerfunc() # prints In
+
